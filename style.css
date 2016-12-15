@@ -62,9 +62,47 @@ label {
 }
 
 
-/*  Cues Form  */
+/*  Cues Form Animation  */
 
-#cues textarea {
+.cue-form--closed {
+  opacity: 0;
+}
+
+.cue-form--open {
+  opacity: 1;
+  transition: opacity .25s ease-in-out;
+  animation-name: fadeInDown;
+  animation-duration: .25s;
+   -webkit-animation-name: fadeInDown;
+      -webkit-animation-duration: .25s;
+        -webkit-transition: opacity .25s ease-in-out;
+          -moz-transition: opacity .25s ease-in-out;
+  }
+
+  @-webkit-keyframes fadeInDown {
+    0% {
+       opacity: 0;
+       -webkit-transform: translateY(-20px);
+    }
+    100% {
+       opacity: 1;
+       -webkit-transform: translateY(0);
+    }
+ }
+ 
+ @keyframes fadeInDown {
+    0% {
+       opacity: 0;
+       transform: translateY(-20px);
+    }
+    100% {
+       opacity: 1;
+       transform: translateY(0);
+    }
+ }
+
+
+#cue-form textarea {
   box-sizing: border-box;
   font-size: 14px;
   padding: 10px;
@@ -77,24 +115,31 @@ label {
   border: 1px solid #ADB4BF;
 }
 
-#cues input[type=number]{
+#cue-form input[type=number]{
   font-size: 13px;
 }
 
-#cues button {
+#cue-form button, #add-cue {
   cursor: pointer;
   border: none;
   border-radius: 2px;
   font-size: 14px;
   padding: 8px 25px;
   margin: 5px 0;
-  background-color: #3B3B3B;
+  background-color: #2D2D2D;
   color: #FFF;
   float: right;
 }
 
-#cues button:hover {
+#add-cue {
+  font-size: 18px;
+  margin: 20px 0;
+  float: none;
+}
+
+#cue-form button:hover, #add-cue:hover {
   background-color: #00adef;
+  cursor: pointer;
 }
 
 .cue-body {

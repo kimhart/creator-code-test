@@ -22,10 +22,8 @@
           </div>
           <div class="row">
             <div class="col" id="cue-input-container">
-              <form id="cues">
-                <label>When should this cue display?</label>
-                <input type="number" id="minutes" placeholder="00" min="0" max="59" required> : 
-                <input type="number" id="seconds" placeholder="00" min="0" max="59" required>
+              <button id="add-cue">Pause + Add Cue</button>
+              <form id="cue-form" class="cue-form--closed">
                 <textarea id="message" placeholder="Start typing your message..."></textarea><br>
                 <button type="submit">Add Cue</button>
               </form>

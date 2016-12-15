@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Kim Hart</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+      <div class="flex-grid">
+        <div class="main-container">
+          <div class="row">
+            <div class="col" id="header">
+              <h1>Vimeo Cue Generator</h1>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" id="video-container">
+              <div class="cue-overlay"><p>This is a sample cue</p></div>
+              <iframe id="video" src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" id="cue-input-container">
+              <form id="cues">
+                <label>When should this cue display?</label>
+                <input type="number" id="minutes" placeholder="00" min="0" max="59" required> : 
+                <input type="number" id="seconds" placeholder="00" min="0" max="59" required>
+                <textarea id="message" placeholder="Start typing your message..."></textarea><br>
+                <button type="submit">Add Cue</button>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" id="cue-list-container">
+              <h2>Cues</h2>
+              <div class="cue-body">
+                <div class="cue-message">Ohhhh the weather outside is weather</div>
+                <div class="cue-timestamp">1:01</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="https://player.vimeo.com/api/player.js"></script>
+      <script src="main.js"></script>
+    </body>
+</html>

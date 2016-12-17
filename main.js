@@ -1,5 +1,3 @@
-// // Vimeo Player Presets
-
 var iframe = document.querySelector('iframe');
 var player = new Vimeo.Player(iframe);
 var addCueButton = document.getElementById('add-cue');
@@ -8,11 +6,26 @@ var cueForm = document.getElementById('cue-form');
 var message = document.getElementById('message').value;
 var submitButton = document.getElementById('submit-cue');
 var message = document.getElementById('message').value;
-var timeStamp;
+var videoTitle = document.querySelector('.title');
 
-player.on('play', function() {
-    console.log('playing');
-});
+player.on('pause', function(){
+  getPrettyTime();
+})
+
+player.on('seeked', function(){
+  getPrettyTime();
+})
+
+function getPrettyTime() {
+  var prettyTime;
+  player.getCurrentTime().then(function(seconds) {
+    seconds = Math.floor(seconds);
+    prettyTime = formatSeconds(seconds);
+    submitButton.textContent = "Submit Cue at " + prettyTime;
+  }).catch(function(error) {
+    console.log(error);
+  });
+};
 
 function formatSeconds(seconds) {
   var minutes;
@@ -33,26 +46,6 @@ function formatSeconds(seconds) {
       return "0:" + seconds;
     }
   }
-};
-
-function getSeconds() {
-  player.getCurrentTime().then(function(seconds) {
-    seconds = Math.floor(seconds);
-  }).catch(function(error) {
-    console.log(error)
-  });
-};
-
-
-function getPrettyTime() {
-  var formattedTime;
-  player.getCurrentTime().then(function(seconds) {
-    seconds = Math.floor(seconds);
-    formattedTime = formatSeconds(seconds);
-    submitButton.textContent = "Submit Cue at " + formattedTime + " 🔥";
-  }).catch(function(error) {
-    console.log(error);
-  });
 };
 
 
@@ -92,14 +85,6 @@ function getCues() {
       }
   });
 }
-
-
-addCueButton.addEventListener('click', openForm);
-
-
-
-
-
 
 
 

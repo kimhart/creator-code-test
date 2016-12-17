@@ -29,6 +29,7 @@ ol.how-to {
   padding-left: 15px;
 }
 
+
 /*  Grid Layout  */
 
 .flex-grid {
@@ -107,13 +108,26 @@ button.submit-cue {
   cursor: pointer;
 }
 
-.cue-body {
+.cue-body, .cue-placeholder {
   display: flex;
   justify-content: space-between;
   background-color: #BEE4EF;
   padding: 10px;
   border-radius: 2px;
   margin: 20px auto;
+}
+
+.cue-message {
+  padding-top: 5px;
+}
+
+.cue-message span {
+  font-weight: 700; 
+  margin-right: 20px;
+}
+
+.delete {
+  cursor: pointer;
 }
 
 

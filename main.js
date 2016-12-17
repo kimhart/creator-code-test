@@ -1,20 +1,28 @@
 var iframe = document.querySelector('iframe');
 var player = new Vimeo.Player(iframe);
 var addCueButton = document.getElementById('add-cue');
-var cueListContainer = document.getElementById('cue-list-container');
 var cueForm = document.getElementById('cue-form');
-var message = document.getElementById('message').value;
 var submitButton = document.getElementById('submit-cue');
-var message = document.getElementById('message').value;
-var videoTitle = document.querySelector('.title');
+var timeInput = document.getElementById('time-stamp');
 
 player.on('pause', function(){
   getPrettyTime();
+  getExactSeconds();
 })
 
 player.on('seeked', function(){
   getPrettyTime();
+  getExactSeconds();
 })
+
+function getExactSeconds() {
+  player.getCurrentTime().then(function(seconds) {
+    seconds = Math.floor(seconds);
+    timeInput.value = seconds;
+  }).catch(function(error) {
+    console.log(error);
+  });
+};
 
 function getPrettyTime() {
   var prettyTime;
@@ -30,7 +38,6 @@ function getPrettyTime() {
 function formatSeconds(seconds) {
   var minutes;
   var newSeconds;
-
   if (seconds > 60) {
     minutes = Math.floor(seconds / 60);
     newSeconds = Math.round(((seconds / 60) - minutes) * 60);
@@ -51,29 +58,28 @@ function formatSeconds(seconds) {
 
 // Submit the cue to the list
 cueForm.onsubmit = function(e){
+  var message = document.getElementById('message').value;
+  var placeholder = document.querySelector('.cue-placeholder');
+  var timeStamp = timeInput.value;
   e.preventDefault();
-  player.addCuePoint(12, {
+  player.addCuePoint(timeStamp, {
       message: message
   }).then(function(id) {
       getCues();
   }).catch(function(error) {
-      switch (error.name) {
-          case 'UnsupportedError':
-              // cue points are not supported with the current player or browser
-              break;
-          case 'RangeError':
-              // the time was less than 0 or greater than the video’s duration
-              break;
-          default:
-              // some other error occurred
-              break;
-      }
-  });
-}
+      console.log(error);
+  })
+  var cueListContainer = document.getElementById('cue-list-container');
+  var newCue = document.createElement('div');
+  newCue.innerHTML = ('<div class="cue-body"><div class="cue-message"><span>'+ timeStamp + '</span>' + message + '</div><div class="cue-delete"><i class="material-icons delete">delete_forever</i></div></div>');
+  cueListContainer.appendChild(newCue);
+  cueForm.reset();
+};
 
 function getCues() {
   player.getCuePoints().then(function(cuePoints) {
-      console.log(cuePoints[0].time)
+    cuePoints.forEach(function(cue){
+    })
   }).catch(function(error) {
       switch (error.name) {
         case 'UnsupportedError':

@@ -1,51 +1,49 @@
 <!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Kim Hart</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-      <div class="flex-grid">
-        <div class="main-container">
-          <div class="row">
-            <div class="col" id="header">
-              <h1>Vimeo Cue Generator</h1>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col" id="video-container">
-              <div class="cue-overlay"><p>This is a sample cue</p></div>
-              <iframe id="video" src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col" id="cue-input-container">
-              <h2>How-To</h2>
-              <ol class="how-to">
-                <li>Pause/drag status bar to where you'd like to add your cue</li>
-                <li>Add your message below</li>
-                <li>Click submit to publish the cue to your video</li>
-              </ol>
-              <form id="cue-form">
-                <textarea id="message" placeholder="Start typing your message..." required></textarea><br>
-                <button id="submit-cue" class="submit-cue" type="submit">Add Cue</button>
-              </form>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col" id="cue-list-container">
-              <h2>Your Cues</h2>
-              <div class="cue-body">
-                <div class="cue-message">Ohhhh the weather outside is weather</div>
-                <div class="cue-timestamp">1:01</div>
-              </div>
-            </div>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <title>Kim Hart</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="flex-grid">
+      <div class="main-container">
+        <div class="row">
+          <div class="col" id="header">
+            <h1>Vimeo Cue Generator</h1>
           </div>
         </div>
+        <div class="row">
+          <div class="col" id="video-container">
+            <div class="cue-overlay"><p>This is a sample cue</p></div>
+            <iframe id="video" src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" id="cue-input-container">
+            <h2>How-To</h2>
+            <ol class="how-to">
+              <li>Pause/drag status bar to where you'd like to add your cue</li>
+              <li>Add your message below</li>
+              <li>Click submit to publish the cue to your video</li>
+            </ol>
+            <form id="cue-form">
+              <textarea id="message" placeholder="Start typing your message..." required></textarea><br>
+              <input type="hidden" id="time-stamp"/>
+              <button id="submit-cue" class="submit-cue" type="submit">Add Cue</button>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" id="cue-list-container">
+            <h2>Your Cues</h2>
+            <div class="cue-placeholder">No cues for this video yet.</div>
+        </div>
       </div>
-      <script src="https://player.vimeo.com/api/player.js"></script>
-      <script src="main.js"></script>
-    </body>
+    </div>
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script src="main.js"></script>
+  </body>
 </html>

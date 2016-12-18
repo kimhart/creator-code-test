@@ -1,36 +1,27 @@
-# Vimeo Player Cues
+# Vimeo Cue Generator
 
-We have a client with a huge library of instructional videos and they really want to add supplemental information to users as they are watching the video.
+Usually I'd set up a Node server to run this so I could use ES6 syntax with Babel, Gulp/Webpack and Sass — but for the sake of simplicity, I kept it all static files with Vanilla JS. This sacrifices some file structure/organization and the ability to store the data long-term, but it made sense to keep it simple for this small project.
 
-Build a new Cue construction feature that leverages the Vimeo embedded player.
+This could've been written more elegantly with React (yay JSX & virtual DOM!), but I chose to solve it without extra frameworks/libraries as per the instructions.
 
-A Cue is a timestamp/progress based event that will allow the video creator to surface messages as the video progresses.
+#### This page features the following:
 
-See `example1.jpeg` for what the display of the Cue could look like.
+- A clean interface that mimics Vimeo's existing site
+- The option to add views to one sample video
+- Instructions for the user to add a cue
+- A template to add a cue at a specific time stamp. The template must include a valid time + a message in order to submit
+- A list of the existing cues in order of appearance in the video
+- Cues that surface as an overlay on the video at the appropriate times
+- The option to delete any of the cues
 
-The requirements of the feature are:
+#### Features I would add if I built this on a server/ with more elegant frameworks / I had unlimited time
+- Adding markdown capability to the cue input (to allow images, links, etc.)
+- Persistent storage
+- Changing video along with its cues
+- The option to edit existing cues
+- A sidebar that contains all the videos a user has added cues to
+- Ways to save several versions of the same videos with different cues 
+- Cooler styling!
 
-- An interface for the user to add Cues at certain timestamps.
-    - Should also list the Cues that have been added and allow them to be deleted.
-- While playing the video surface the Cues at the correct times and hide after a duration.
-- A Cue only needs to contain a string.
-- The messages should be displayed as an overlay on the player itself.
-- Only include libraries/frameworks if you need them, but please write all your own CSS
 
-See `example2.png` for a wireframe of how the feature could work, the end result is totally up to you!
 
-## Resources
-
-- The player embed api: https://github.com/vimeo/player.js and a demo here: https://player.vimeo.com/api/demo
-
-https://vimeo.com/ondemand/codedebugging
-
-## Bonus
-
-Not required but for fun!
-
-- Use only vanilla javascript - let's see those skills!
-- Customization, background color, width, font size, duration shown etc.
-- Cues can be different types like a link, image
-- Use some persistent storage.
-- Allow changing the video (which should also change the Cues associated with the video).

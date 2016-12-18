@@ -60,9 +60,8 @@ cueForm.onsubmit = function(e){
 
   var message = document.getElementById('message').value;
   var placeholder = document.querySelector('.cue-placeholder');
-  var cueListContainer = document.getElementById('cue-list-container');
-  var newCue = document.createElement('div');
   var formError = document.querySelector('.form-error');
+  var allCues = document.querySelector('.all-cues');
   var timeStamp = timeInput.value;
 
   if (timeStamp) {
@@ -71,18 +70,20 @@ cueForm.onsubmit = function(e){
       placeholder.remove();
     };
 
+    if (allCues) {
+      allCues.remove();
+    }
+
     player.addCuePoint(timeStamp, {
         message: message
     }).then(function(id) {
-        getCues();
+        cueForm.reset();
     }).catch(function(error) {
         console.log(error);
     });
 
-    newCue.innerHTML = ('<div class="cue-body"><div class="cue-message"><span>'+ timeStamp + '</span>' + message + '</div><div class="cue-delete"><i class="material-icons delete">delete_forever</i></div></div>');
-    cueListContainer.appendChild(newCue);
-    cueForm.reset();
-    getCues();
+    listCues();
+
   } else {
     var errorText = document.createTextNode('Please choose a display time for this cue.');
     formError.appendChild(errorText);
@@ -94,15 +95,39 @@ cueForm.onsubmit = function(e){
 };
 
 
-function getCues() {
+function listCues() { 
+  var cueListContainer = document.getElementById('cue-list-container');
   player.getCuePoints().then(function(cuePoints) {
     cuePoints.forEach(function(cue){
-      console.log(cue);
+      var newCue = document.createElement('div');
+      newCue.innerHTML = ('<div class="cue-body"><div class="cue-message"><span>'+ formatSeconds(cue.time) + '</span>' + cue.data.message + '</div><div class="cue-delete"><i class="material-icons delete">delete_forever</i></div></div>');
+      cueListContainer.appendChild(newCue);
     })
   }).catch(function(error) {
       console.log(error);
-  });
-}
+  })
+};
+
+
+player.removeCuePoint('09ecf4e4-b587-42cf-ad9f-e666b679c9ab').then(function(id) {
+    // cue point was removed successfully
+}).catch(function(error) {
+    switch (error.name) {
+        case 'UnsupportedError':
+            // cue points are not supported with the current player or browser
+            break;
+
+        case 'InvalidCuePoint':
+            // a cue point with the id passed wasn’t found
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
+});
+
+
 
 
 

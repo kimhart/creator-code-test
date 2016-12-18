@@ -4,7 +4,9 @@ var addCueButton = document.getElementById('add-cue');
 var cueForm = document.getElementById('cue-form');
 var submitButton = document.getElementById('submit-cue');
 var timeInput = document.getElementById('time-stamp');
+var cueListContainer = document.getElementById('cue-list-container');
 
+// On a pause or seek, record times
 player.on('pause', function(){
   getExactSeconds();
   getPrettyTime();
@@ -15,6 +17,7 @@ player.on('seeked', function(){
   getPrettyTime();
 })
 
+// Round down the seconds to a whole number
 function getExactSeconds() {
   player.getCurrentTime().then(function(seconds) {
     seconds = Math.floor(seconds);
@@ -24,6 +27,7 @@ function getExactSeconds() {
   });
 };
 
+// Pretty-print the time on the submit button
 function getPrettyTime() {
   player.getCurrentTime().then(function(seconds) {
     seconds = Math.floor(seconds);
@@ -34,6 +38,7 @@ function getPrettyTime() {
   });
 };
 
+// Format seconds so 21 displays 0:21, 5 displays as 0:05, 62 displays as 1:02, etc.
 function formatSeconds(seconds) {
   var minutes;
   var newSeconds;
@@ -54,26 +59,21 @@ function formatSeconds(seconds) {
   }
 };
 
-
+// Handle submission of a new cue
 cueForm.onsubmit = function(e){
   e.preventDefault();
-
   var message = document.getElementById('message').value;
   var placeholder = document.querySelector('.cue-placeholder');
   var formError = document.querySelector('.form-error');
   var allCues = document.querySelector('.all-cues');
   var timeStamp = timeInput.value;
-
+  // If a timestamp is assigned with the video
   if (timeStamp) {
-
+    // if a placeholder exists, remove it 
     if (placeholder) {
       placeholder.remove();
     };
-
-    if (allCues) {
-      allCues.remove();
-    }
-
+    // add cues to the list + give them IDs
     player.addCuePoint(timeStamp, {
         message: message
     }).then(function(id) {
@@ -81,50 +81,61 @@ cueForm.onsubmit = function(e){
     }).catch(function(error) {
         console.log(error);
     });
-
+    // list the cues on the page
     listCues();
-
+  // If a timestamp is not specified, show error
   } else {
     var errorText = document.createTextNode('Please choose a display time for this cue.');
     formError.appendChild(errorText);
     setTimeout(function(){
       formError.classList.add('fadeOutDown');
     }, 2000);
-
   };
 };
 
-
+// Append all cues to the "Your Cues" list under the video
 function listCues() { 
-  var cueListContainer = document.getElementById('cue-list-container');
+  var allCues = document.querySelector('.all-cues');
+  var cueBody = document.querySelectorAll('.cue-body');
+
   player.getCuePoints().then(function(cuePoints) {
+    // If cues exist, loop through them and clear before appending new list
+    if (cueBody) {
+      cueBody.forEach(function(cue){
+        cue.remove();
+      })
+    };
+
+    // Loop through current cues and append them 
     cuePoints.forEach(function(cue){
       var newCue = document.createElement('div');
-      newCue.innerHTML = ('<div class="cue-body"><div class="cue-message"><span>'+ formatSeconds(cue.time) + '</span>' + cue.data.message + '</div><div class="cue-delete"><i class="material-icons delete">delete_forever</i></div></div>');
-      cueListContainer.appendChild(newCue);
-    })
+      var id = cue.id;
+      var message = cue.data.message;
+      var time = cue.time;
+
+      newCue.classList.add('cue-body');
+      newCue.innerHTML = ('<div class="cue-message"><span>' + formatSeconds(time) + '</span>' + message + '</div><div class="cue-delete"><i  id="'+ id +'" class="material-icons delete">delete_forever</i></div>');
+      allCues.appendChild(newCue);
+    });
   }).catch(function(error) {
       console.log(error);
   })
 };
 
 
-player.removeCuePoint('09ecf4e4-b587-42cf-ad9f-e666b679c9ab').then(function(id) {
-    // cue point was removed successfully
-}).catch(function(error) {
-    switch (error.name) {
-        case 'UnsupportedError':
-            // cue points are not supported with the current player or browser
-            break;
+// Listen for clicks on trash, delete cue, remove from page
+function deleteCue(id) {
+  player.removeCuePoint(id).then(function(id) {
+      console.log('Deleted cue id: ' + id);
+  }).catch(function(error) {
+      console.log(error);
+  });
+}
 
-        case 'InvalidCuePoint':
-            // a cue point with the id passed wasn’t found
-            break;
-
-        default:
-            // some other error occurred
-            break;
-    }
+cueListContainer.addEventListener('click', function(e) {
+  var cueID = e.target.id;
+  deleteCue(cueID);
+  listCues();
 });
 
 

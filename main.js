@@ -1,6 +1,7 @@
 var iframe = document.querySelector('iframe');
 var player = new Vimeo.Player(iframe);
 var addCueButton = document.getElementById('add-cue');
+var cueOverlay = document.querySelector('.cue-overlay');
 var cueForm = document.getElementById('cue-form');
 var submitButton = document.getElementById('submit-cue');
 var timeInput = document.getElementById('time-stamp');
@@ -16,6 +17,15 @@ player.on('seeked', function(){
   getExactSeconds();
   getPrettyTime();
 })
+
+ player.on('cuepoint', function(){
+  console.log('ok');
+  cueOverlay.innerHTML = ("<p>Cue happened!</p>");
+  setTimeout(function(){
+    cueOverlay.innerHTML = ("");
+  }, 2000);
+})
+
 
 // Round down the seconds to a whole number
 function getExactSeconds() {
@@ -112,7 +122,7 @@ function listCues() {
       var id = cue.id;
       var message = cue.data.message;
       var time = cue.time;
-
+      // Add cue to 'Your Cues' feed
       newCue.classList.add('cue-body');
       newCue.innerHTML = ('<div class="cue-message"><span>' + formatSeconds(time) + '</span>' + message + '</div><div class="cue-delete"><i  id="'+ id +'" class="material-icons delete">delete_forever</i></div>');
       allCues.appendChild(newCue);

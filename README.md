@@ -4,7 +4,7 @@ Usually I'd set up a Node server to run this so I could use ES6 syntax with Babe
 
 This could've been written more elegantly with React (yay JSX & virtual DOM!), but I chose to solve it without extra frameworks/libraries as per the instructions.
 
-#### This page features the following:
+### This page features the following:
 
 - A clean interface that mimics Vimeo's existing site
 - The option to add views to one sample video
@@ -14,7 +14,7 @@ This could've been written more elegantly with React (yay JSX & virtual DOM!), b
 - Cues that surface as an overlay on the video at the appropriate times
 - The option to delete any of the cues
 
-#### Features I would add if I built this on a server/ with more elegant frameworks / I had unlimited time
+### Features I would add if I built this on a server/ with more elegant frameworks / I had unlimited time
 - Adding markdown capability to the cue input (to allow images, links, etc.)
 - Persistent storage
 - Changing video along with its cues

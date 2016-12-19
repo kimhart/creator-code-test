@@ -1,5 +1,7 @@
 # Vimeo Cue Generator
 
+[View here!](https://kimhart.github.io/creator-code-test/)
+
 Usually I'd set up a Node server to run this so I could use ES6 syntax with Babel, Gulp/Webpack and Sass — but for the sake of simplicity, I kept it all static files with Vanilla JS. This sacrifices some file structure/organization and the ability to store the data long-term, but it made sense to keep it simple for this small project.
 
 This could've been written more elegantly with React (yay JSX & virtual DOM!), but I chose to solve it without extra frameworks/libraries as per the instructions.

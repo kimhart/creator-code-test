@@ -28,6 +28,6 @@ This could've been written more elegantly with React (yay JSX & virtual DOM!), b
 ### Known Bugs to Fix
 - Adding more than one cue at the same time stamp will cause them to list more than once
 - "The Play request was interrupted by a call to pause" flags when you pause before the video has completely loaded.
-- Not really a bug... but DRY up some of the functions
+- Placeholder does not reappear if user deletes all the cues
 
 

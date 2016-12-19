@@ -4,7 +4,8 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   color: #141517;
-  padding: 0 0 80px 0;
+  padding: 20px 20px 200px 20px;
+  background: url(quote.png) bottom left no-repeat fixed;
 }
 
 h1, h2, label {
@@ -48,8 +49,10 @@ ol.how-to {
 
 .main-container {
   width: 640px;
+  background-color: rgba(255, 255, 255, .95);
   margin: 0 auto;
   display: block;
+  padding: 0 20px 20px 0;
 }
 
 
@@ -61,6 +64,8 @@ ol.how-to {
 
 .cue-overlay {
   position: absolute;
+  padding: 10px;
+  border-radius: 2px;
   z-index: 1;
   top: 0;
   left: 0;

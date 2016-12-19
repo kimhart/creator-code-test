@@ -18,16 +18,33 @@ player.on('seeked', function(){
   getPrettyTime();
 })
 
- player.on('cuepoint', function(){
-  console.log('ok');
-  cueOverlay.innerHTML = ("<p>Cue happened!</p>");
-  setTimeout(function(){
-    cueOverlay.innerHTML = ("");
-  }, 2000);
-})
+
+// Watch for cuepoint notifications, match the cuepoints with any cue that shares that time slot, display it in the overlay
+player.on('cuepoint', function(){
+  var currentTime;
+  player.getCuePoints().then(function(cuePoints) {
+    player.getCurrentTime().then(function(seconds) {
+      currentTime = Math.floor(seconds);
+      cuePoints.forEach(function(cue) {
+        var message = cue.data.message;
+        var time = cue.time;
+        if (time === currentTime) {
+          var cueParagraph = document.createElement('p');
+          cueParagraph.appendChild(document.createTextNode(message));
+          cueOverlay.appendChild(cueParagraph);
+        };
+        setTimeout(function() {
+          cueOverlay.innerHTML = ("");
+        }, 2500);
+      });
+    }).catch(function(error) {
+        console.log(error);
+    });
+  })
+});
 
 
-// Round down the seconds to a whole number
+// Get seconds and round down to a whole number
 function getExactSeconds() {
   player.getCurrentTime().then(function(seconds) {
     seconds = Math.floor(seconds);
@@ -36,6 +53,7 @@ function getExactSeconds() {
     console.log(error);
   });
 };
+
 
 // Pretty-print the time on the submit button
 function getPrettyTime() {
@@ -48,7 +66,8 @@ function getPrettyTime() {
   });
 };
 
-// Format seconds so 21 displays 0:21, 5 displays as 0:05, 62 displays as 1:02, etc.
+
+// Format seconds so 5 displays as 0:05, 62 displays as 1:02, etc.
 function formatSeconds(seconds) {
   var minutes;
   var newSeconds;
@@ -77,13 +96,13 @@ cueForm.onsubmit = function(e){
   var formError = document.querySelector('.form-error');
   var allCues = document.querySelector('.all-cues');
   var timeStamp = timeInput.value;
-  // If a timestamp is assigned with the video
+  
   if (timeStamp) {
-    // if a placeholder exists, remove it 
+    // Replace the "No cues yet" placeholder
     if (placeholder) {
       placeholder.remove();
     };
-    // add cues to the list + give them IDs
+    
     player.addCuePoint(timeStamp, {
         message: message
     }).then(function(id) {
@@ -91,12 +110,13 @@ cueForm.onsubmit = function(e){
     }).catch(function(error) {
         console.log(error);
     });
-    // list the cues on the page
+    
     listCues();
-  // If a timestamp is not specified, show error
+
   } else {
     var errorText = document.createTextNode('Please choose a display time for this cue.');
     formError.appendChild(errorText);
+
     setTimeout(function(){
       formError.classList.add('fadeOutDown');
     }, 2000);
@@ -109,20 +129,21 @@ function listCues() {
   var cueBody = document.querySelectorAll('.cue-body');
 
   player.getCuePoints().then(function(cuePoints) {
-    // If cues exist, loop through them and clear before appending new list
+
+    // Wipe any cues that already exist (remove duplicates)
     if (cueBody) {
       cueBody.forEach(function(cue){
         cue.remove();
       })
     };
 
-    // Loop through current cues and append them 
+    // Loop through most current cues and append them 
     cuePoints.forEach(function(cue){
       var newCue = document.createElement('div');
       var id = cue.id;
       var message = cue.data.message;
       var time = cue.time;
-      // Add cue to 'Your Cues' feed
+
       newCue.classList.add('cue-body');
       newCue.innerHTML = ('<div class="cue-message"><span>' + formatSeconds(time) + '</span>' + message + '</div><div class="cue-delete"><i  id="'+ id +'" class="material-icons delete">delete_forever</i></div>');
       allCues.appendChild(newCue);
@@ -133,7 +154,7 @@ function listCues() {
 };
 
 
-// Listen for clicks on trash, delete cue, remove from page
+// Delete cues
 function deleteCue(id) {
   player.removeCuePoint(id).then(function(id) {
       console.log('Deleted cue id: ' + id);

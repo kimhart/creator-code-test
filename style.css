@@ -8,29 +8,6 @@ body {
   background: url(quote.png) bottom left no-repeat fixed;
 }
 
-h1, h2, label {
-  font-weight: 700;
-  margin-bottom: .5em;
-}
-
-p.current-time {
-  display: inline;
-  font-style: italic;
-  padding: 20px;
-  font-size: 20px;
-  font-weight: 700;
-}
-
-label {
-  margin: 25px 10px 15px 0;
-  display: inline-block;
-}
-
-ol.how-to {
-  padding-left: 15px;
-}
-
-
 /*  Grid Layout  */
 
 .flex-grid {
@@ -53,6 +30,28 @@ ol.how-to {
   margin: 0 auto;
   display: block;
   padding: 0 20px 20px 0;
+}
+
+h1, h2, label {
+  font-weight: 700;
+  margin-bottom: .5em;
+}
+
+p.current-time {
+  display: inline;
+  font-style: italic;
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+label {
+  margin: 25px 10px 15px 0;
+  display: inline-block;
+}
+
+ol.how-to {
+  padding-left: 15px;
 }
 
 
@@ -170,22 +169,3 @@ button.submit-cue {
    -webkit-animation-name: fadeOutDown;
    animation-name: fadeOutDown;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
